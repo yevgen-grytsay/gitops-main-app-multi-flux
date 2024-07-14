@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gitops-main-app-multi
+  namespace: prod
+spec:
+  chart:
+    spec:
+      chart: ./helm
+      # reconcileStrategy: ChartVersion
+      reconcileStrategy: Revision
+      sourceRef:
+        kind: GitRepository
+        name: gitops-main-app-multi
+      valuesFiles:
+        - ./helm/values.yaml
+        - ./helm/envs/main/image.yaml
+        - ./helm/envs/main/port.yaml
+  interval: 1m0s
